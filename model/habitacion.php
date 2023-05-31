@@ -19,4 +19,16 @@ class Habitacion extends Conexion{
     die($e->getMessage());
    }
   }
+
+  public function estadoHabitacion(){
+    try{
+      $consulta = $this->conexion->prepare("CALL spu_mostrar_estado");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+
+      die($e->getMessage());
+    }
+  }
 }

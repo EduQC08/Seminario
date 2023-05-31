@@ -1,4 +1,16 @@
+<?php
+session_start();
+
+//Si el usario ya tiene una sesión activa ... entonces no debe estar aqui!!!
+
+if(!isset($_SESSION['seguridad']) || $_SESSION['seguridad']['login'] == false){
+
+  header('Location: ../index.php ');
+}
+?>
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,12 +20,11 @@
   
 
 
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="estilos.css">
+
 </head>
 
 <body>
@@ -25,99 +36,85 @@
 
     <div class="container" id="container">
       <!-- <div class="row"> -->
-
-
-
-
-        <div class="card col-12 mt-3" id="header">
-        <div class="card-header  text-center text-white" >
-          <h3>REGISTRO DE ALQUILER</h3>
-        </div>
-        <table class=" col-6 table mb-5" id="tabla-alquiler">
-        <div class="col-12">
-          <div class=" card-body col-5">
-          <div class="input-group mb-3 col-6">
-            <select name="habitacion" class="form-select" id="habitacion">
-              <option value="" >Seleccione</option>
-            </select>
-            
+        <nav class="navbar navbar-light bg-primary fixed-top ">
+          <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Panel de Inicio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+              aria-labelledby="offcanvasNavbarLabel">
+              <div class="offcanvas-header">
+              <h5><?= $_SESSION['seguridad']['nombre']?> <?= $_SESSION['seguridad']['apellidos']?></h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                  <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Escriba.." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                  </form>
+                  <li class="nav-item ">
+                    <a class="nav-link" href="./hotel.php">Inicio</a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link" href="./registrarusuario.view.html">Registro de habitaciones alquiladas</a>
+                  </li>
+  
+                  <li>
+                    <a class="nav-link" aria-current="page" href="./habitaciones.html">habitaciones</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../controller/usuario.controller.php?operacion=destroy">Cerrar sesión</a>
+                  </li>
+                </ul>
+                
+              </div>
+            </div>
           </div>
+        </nav>
 
-        </div>
-        <div class="card-body col-5">
-          <div class="modal">
-            
-          </div>
-        </div>
-        
 
-        </div>
+<br>
 
-        
-      <thead id="thead">
-        <tr>
-          <th>#</th>
-          <th scope="col">Habitacion</th>
-          <th scope="col">Apellidos</th>
-          <th scope="col">Nombres</th>
-          <th>Hora entrada</th>
-          <th>Hora salida</th>
-          <th>Costo</th>
-          <th>Comandos</th>
-        </tr>
-      </thead>
-      
+
+
+
+
+
       <tbody>
-          <!-- Button trigger modal -->
 
       </tbody>
 
         </div>
 
+        <div class="container-fluid" id="content-dinamics">
+
+
+        </div>
         <!-- Modal trigger button -->
-        <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#modalId">
-          Registrar Alquiler
-        </button>
+
         
         <!-- Modal Body -->
         <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-        <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">Registro de Alquiler</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class=" card modal-body">
-                <div class="col-5">
-                  <label for="">Habitacion</label>
-                <select name="" id="habitacion">
-                </select>
-                <label for="">Apellidos</label>
-                <input type="text">
-                
-                <label for="">Nombres</label>
-                <input type="text">
-                <label for="">Costo</label>
-                <input type="text">
-              </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
-              </div>
-            </div>
-          </div>
-        </div>
+
         
         
         <!-- Optional: Place to the bottom of scripts -->
-        <script>
-          const myModal = new bootstrap.Modal(document.getElementById('modalId'), options)
-        
-        </script>
+
         
       </div>
+
+      <script src="./vendor/jquery/jquery.min.js"></script>
+    <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages -->
+    <script src="./js/sb-admin-2.min.js"></script>
     
       <script>
         document.addEventListener("DOMContentLoaded", ()=> {
@@ -125,6 +122,29 @@
           const cuerpoTabla = document.querySelector("tbody")
           const btregistrar = document.querySelector("#modal")
           const lista       = document.querySelector("#habitacion")
+          const Guardar = document.querySelector("#guardar")
+          const MDhabitacion = document.querySelector("#md-habitacion")
+
+          function getURL() {
+            const url = new URL(window.location.href);
+
+            const vista = url.searchParams.get("view");
+
+            const contenedor = document.querySelector("#content-dinamics");
+
+            if(vista != null){
+              fetch(vista)
+              .then(respuesta => respuesta.text())
+              .then(datos => {
+                contenedor.innerHTML = datos;
+
+                const scriptsTag = contenedor.getElementsByTagName("script");
+                for(i = 0; i < scriptsTag.length; i++){
+                  eval(scriptsTag[i].innerText);
+                }
+              });
+            }
+          }
 
 
           function obtenerLista(){
@@ -148,7 +168,9 @@
                   <td>${element.horaentrada}</td>
                   <td>${element.horasalida}</td>
                   <td>${element.costo}</td>
-                  <td><button type="button" class="btn btn-sm btn-secondary" id="editar" ">Editar</button>
+                  <td>${element.pago}</td>
+                  
+                  <td><button type="button" class="btn btn-sm btn-secondary" id="editar" ">Registrar salida</button>
                     
                   </td>
                   </tr>
@@ -204,16 +226,44 @@
                 optionTag.value= element.idhabitacion;
                 optionTag.text = element.numhabitacion;
                 lista.appendChild(optionTag)
+                
+              });
+            });
+          }
+
+          function seleccionarHabitacion(){
+            const parametros = new URLSearchParams();
+            parametros.append("operacion", "listar");
+
+            fetch('../controller/habitacion.php',{
+              method: 'POST',
+              body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+              datos.forEach(element => {
+                const optionTag = document.createElement("option");
+                optionTag.value= element.idhabitacion;
+                optionTag.text = element.numhabitacion;
+                MDhabitacion.appendChild(optionTag)
+                
               });
             });
           }
           
+
+
+
+          getURL();
           obtenerLista();
           selectHabitacion();
-          lista.addEventListener("change", obtenerHabitacion)
-
           
-        })
+          seleccionarHabitacion();
+          lista.addEventListener("change", selectHabitacion)
+          
+          
+          
+        });
       </script>
 
 </body>

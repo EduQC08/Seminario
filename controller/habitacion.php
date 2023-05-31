@@ -11,5 +11,16 @@ if(isset($_POST['operacion'])){
     if($datos){
       echo json_encode($datos);
     }
+
+    
   }
+  if($_POST['operacion'] == 'listarestado'){
+    $datos = $habitacion->estadoHabitacion();
+
+    if($datos){
+      echo json_encode($datos);
+    }
+  }
+
+  
 }

@@ -30,4 +30,41 @@ class Alquiler  extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function actualizar ($datos = []){
+    $respuesta = [
+      "status " => false,
+      "message" => ""
+    ];
+    try{
+      $consulta = $this->conexion->prepare("CALL pagoactivar(?,?,?)");
+      $respuesta["status"] = $consulta->execute(
+        array(
+          $datos["idalquiler"],
+          $datos["horasalida"],
+          $datos["pago"]
+        )
+        );
+    }
+    catch(Exception $e){
+      $respuesta["message"] = "No se ah podido completar el proceso. Codigo error";
+    }
+    return $respuesta;
+  }
+
+  public function RegistrarAlquiler($datos = []){
+    try{
+      $consulta = $this->conexion->prepare("INSERT INTO alquiler (idhabitacion, idcliente, idusuario, pago) values (?,?,?,?)");
+      $consulta->execute(array(
+          $datos["idhabitacion"],
+          $datos["idcliente"],
+          $datos["idusuario"],
+          $datos["pago"]
+        ));
+      }
+      catch(Exception $e){
+        $respuesta["message"] = "no se ha podido completar la operacion";
+      }
+    return $respuesta;
+  }
 }
